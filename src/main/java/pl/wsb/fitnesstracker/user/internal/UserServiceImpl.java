@@ -27,6 +27,19 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.save(user);
     }
 
+    // --- Nowa metoda do aktualizacji ---
+    public User updateUser(final User user) {
+        if (user.getId() == null) {
+            throw new IllegalArgumentException("User must have an ID to be updated!");
+        }
+        return userRepository.save(user);
+    }
+
+    // --- Nowa metoda do usuwania ---
+    public void deleteUser(final Long id) {
+        userRepository.deleteById(id);
+    }
+
     @Override
     public Optional<User> getUser(final Long userId) {
         return userRepository.findById(userId);
@@ -42,4 +55,12 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.findAll();
     }
 
+    // --- Nowe metody wyszukiwania (delegacja do repozytorium) ---
+    public List<User> searchByEmail(String emailFragment) {
+        return userRepository.findAllByEmailFragment(emailFragment);
+    }
+
+    public List<User> searchByAge(int age) {
+        return userRepository.findUsersOlderThan(age);
+    }
 }

@@ -3,6 +3,8 @@ package pl.wsb.fitnesstracker.user.internal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.wsb.fitnesstracker.user.api.User;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,4 +22,28 @@ interface UserRepository extends JpaRepository<User, Long> {
                 .findFirst();
     }
 
+    /**
+     * Query searching users by email address (case-insensitive) containing a fragment.
+     *
+     * @param emailFragment fragment of the email to search
+     * @return list of found users
+     */
+    default List<User> findAllByEmailFragment(String emailFragment) {
+        return findAll().stream()
+                .filter(user -> user.getEmail() != null &&
+                        user.getEmail().toLowerCase().contains(emailFragment.toLowerCase()))
+                .toList();
+    }
+
+    /**
+     * Query searching users older than the specified age.
+     *
+     * @param age age threshold
+     * @return list of found users
+     */
+    default List<User> findUsersOlderThan(int age) {
+        return findAll().stream()
+                .filter(user -> user.getBirthdate().isBefore(LocalDate.now().minusYears(age)))
+                .toList();
+    }
 }
