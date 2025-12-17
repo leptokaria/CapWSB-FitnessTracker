@@ -37,6 +37,8 @@ public class User {
             final LocalDate birthdate,
             final String email) {
 
+        this.firstName = firstName; // Dodana linia
+        this.lastName = lastName;   // Dodana linia
         this.birthdate = birthdate;
         this.email = email;
     }

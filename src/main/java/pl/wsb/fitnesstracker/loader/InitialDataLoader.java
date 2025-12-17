@@ -62,8 +62,13 @@ class InitialDataLoader {
     private List<User> generateSampleUsers() {
         List<User> users = new ArrayList<>();
 
+        // --- ZADANIE 0: Dodanie Św. Mikołaja ---
+        users.add(generateUser("Mikołaj", "Święty", 67));
+        // ---------------------------------------
+
         users.add(generateUser("Emma", "Johnson", 28));
         users.add(generateUser("Ethan", "Taylor", 51));
+        // ... reszta Twoich użytkowników ...
         users.add(generateUser("Olivia", "Davis", 76));
         users.add(generateUser("Daniel", "Thomas", 34));
         users.add(generateUser("Sophia", "Baker", 49));
