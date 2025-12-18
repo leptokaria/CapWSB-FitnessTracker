@@ -22,6 +22,14 @@ class UserController {
         this.userMapper = userMapper;
     }
 
+    @GetMapping
+    public List<UserDto> getAllUsersFull() {
+        return userService.findAllUsers()
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
     @GetMapping("/simple")
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers()
