@@ -6,6 +6,7 @@ import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 import pl.wsb.fitnesstracker.user.api.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,6 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.save(user);
     }
 
-    // --- Nowa metoda do aktualizacji ---
     public User updateUser(final User user) {
         if (user.getId() == null) {
             throw new IllegalArgumentException("User must have an ID to be updated!");
@@ -35,7 +35,6 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.save(user);
     }
 
-    // --- Nowa metoda do usuwania ---
     public void deleteUser(final Long id) {
         userRepository.deleteById(id);
     }
@@ -55,12 +54,11 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.findAll();
     }
 
-    // --- Nowe metody wyszukiwania (delegacja do repozytorium) ---
     public List<User> searchByEmail(String emailFragment) {
-        return userRepository.findAllByEmailFragment(emailFragment);
+        return userRepository.findByEmailContainingIgnoreCase(emailFragment);
     }
 
-    public List<User> searchByAge(int age) {
-        return userRepository.findUsersOlderThan(age);
+    public List<User> searchByOlderThan(LocalDate date) {
+        return userRepository.findByBirthdateBefore(date);
     }
 }

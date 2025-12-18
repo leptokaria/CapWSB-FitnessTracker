@@ -1,11 +1,13 @@
 package pl.wsb.fitnesstracker.user.internal;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserDto;
 import pl.wsb.fitnesstracker.user.api.UserNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,7 @@ class UserController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping
+    @GetMapping("/simple")
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers()
                 .stream()
@@ -66,7 +68,7 @@ class UserController {
         return userMapper.toDto(updatedUser);
     }
 
-    @GetMapping("/search/email")
+    @GetMapping("/email")
     public List<UserDto> searchUsersByEmail(@RequestParam String email) {
         return userService.searchByEmail(email)
                 .stream()
@@ -74,9 +76,9 @@ class UserController {
                 .toList();
     }
 
-    @GetMapping("/search/age")
-    public List<UserDto> searchUsersByAge(@RequestParam int age) {
-        return userService.searchByAge(age)
+    @GetMapping("/older/{date}")
+    public List<UserDto> searchUsersByAge(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return userService.searchByOlderThan(date)
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
