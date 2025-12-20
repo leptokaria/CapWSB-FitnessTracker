@@ -42,7 +42,7 @@ class TrainingController {
      * @param userId the ID of the user
      * @return a list of trainings for the user
      */
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public List<TrainingDto> getTrainingsForUser(@PathVariable Long userId) {
         return trainingService.getTrainingsForUser(userId)
                 .stream()
