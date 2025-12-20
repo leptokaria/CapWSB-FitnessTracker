@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link UserService} and {@link UserProvider} for managing users.
+ */
 @Service
 @Slf4j
 class UserServiceImpl implements UserService, UserProvider {
@@ -28,6 +31,7 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.save(user);
     }
 
+    @Override
     public User updateUser(final User user) {
         if (user.getId() == null) {
             throw new IllegalArgumentException("User must have an ID to be updated!");
@@ -35,6 +39,7 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.save(user);
     }
 
+    @Override
     public void deleteUser(final Long id) {
         userRepository.deleteById(id);
     }
@@ -54,10 +59,12 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.findAll();
     }
 
+    @Override
     public List<User> searchByEmail(String emailFragment) {
         return userRepository.findByEmailContainingIgnoreCase(emailFragment);
     }
 
+    @Override
     public List<User> searchByOlderThan(LocalDate date) {
         return userRepository.findByBirthdateBefore(date);
     }
